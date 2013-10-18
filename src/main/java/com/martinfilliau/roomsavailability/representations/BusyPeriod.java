@@ -1,6 +1,7 @@
 package com.martinfilliau.roomsavailability.representations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 import microsoft.exchange.webservices.data.CalendarEvent;
 
 /**
@@ -10,31 +11,30 @@ import microsoft.exchange.webservices.data.CalendarEvent;
 public class BusyPeriod {
     
     @JsonProperty
-    private String from;
+    private Date from;
     
     @JsonProperty
-    private String to;
+    private Date to;
 
     public BusyPeriod(CalendarEvent e) {
-        this.setFrom(e.getStartTime().toString());
-        this.setTo(e.getEndTime().toString());
+        this.setFrom(e.getStartTime());
+        this.setTo(e.getEndTime());
     }
     
-    public String getFrom() {
+    public Date getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(Date from) {
         this.from = from;
     }
 
-    public String getTo() {
+    public Date getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(Date to) {
         this.to = to;
     }
-    
     
 }
