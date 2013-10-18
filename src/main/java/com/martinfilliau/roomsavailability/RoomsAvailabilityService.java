@@ -11,12 +11,12 @@ import java.text.SimpleDateFormat;
  *
  * @author martinfilliau
  */
-public class ExchangeService extends Service<AppConfiguration>{
+public class RoomsAvailabilityService extends Service<AppConfiguration>{
 
     @Override
     public void initialize(Bootstrap<AppConfiguration> bootstrap) {
         bootstrap.getObjectMapperFactory().setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz"));
-        bootstrap.setName("ExchangeService");
+        bootstrap.setName("RoomsAvailabilityService");
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ExchangeService extends Service<AppConfiguration>{
     }
     
     public static void main(String[] args) throws Exception {
-        new ExchangeService().run(args);
+        new RoomsAvailabilityService().run(args);
     }
     
 }
