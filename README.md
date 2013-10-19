@@ -22,9 +22,14 @@ Resources available
 
 **/availability**
 
-Parameters:
+Query parameters:
+
 * email: (mandatory) email address to be checked
 * date: (optional, defaults to "today") date to be checked, in the format dd/MM/yyyy
+
+Example:
+
+    http://127.0.0.1:8080/availability?email=my@email.com&date=21/10/2013
 
 Configuration example
 ---------------------
