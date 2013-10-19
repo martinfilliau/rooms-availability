@@ -3,6 +3,7 @@ package com.martinfilliau.roomsavailability.resources;
 import com.martinfilliau.roomsavailability.configuration.ExchangeConfiguration;
 import com.martinfilliau.roomsavailability.representations.BusyPeriods;
 import com.martinfilliau.roomsavailability.services.ExchangeService;
+import com.martinfilliau.roomsavailability.views.BusyPeriodsView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,7 +11,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,8 +24,7 @@ import javax.ws.rs.core.MediaType;
  * @author martinfilliau
  */
 @Path("/availability")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
 public class RoomsAvailability {
  
     private final ExchangeService service;
@@ -35,7 +34,7 @@ public class RoomsAvailability {
     }
     
     @GET
-    public BusyPeriods busy(@QueryParam("email") String email,
+    public BusyPeriodsView busy(@QueryParam("email") String email,
                             @QueryParam("date") @DefaultValue("today") String date) {
         Date start;
         Date end;
@@ -53,7 +52,8 @@ public class RoomsAvailability {
             }
         }
         try {
-            return this.service.findBusyPeriods(email, start, end);
+            BusyPeriods bp = this.service.findBusyPeriods(email, start, end);
+            return new BusyPeriodsView(bp);
         } catch (Exception ex) {
             Logger.getLogger(RoomsAvailability.class.getName()).log(Level.SEVERE, null, ex);
             throw new WebApplicationException(ex, 500);
