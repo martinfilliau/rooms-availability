@@ -23,7 +23,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author martinfilliau
  */
-@Path("/rooms")
+@Path("/availability")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class RoomsAvailability {
