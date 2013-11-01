@@ -7,6 +7,7 @@ import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 import com.yammer.dropwizard.views.ViewBundle;
 import java.text.SimpleDateFormat;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 /**
  *
@@ -24,6 +25,7 @@ public class RoomsAvailabilityService extends Service<AppConfiguration>{
     @Override
     public void run(AppConfiguration configuration, Environment environment) throws Exception {
         environment.addResource(new RoomsAvailability(configuration.getExchange()));
+        environment.addFilter(CrossOriginFilter.class, "/*");
     }
     
     public static void main(String[] args) throws Exception {
