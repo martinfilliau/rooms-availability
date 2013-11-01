@@ -21,3 +21,6 @@ docs/build/
 # IntelliJ files
 .idea/
 cucm-http-api.iml
+
+# Netbeans files
+nbactions.xml
