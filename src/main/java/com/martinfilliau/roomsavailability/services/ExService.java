@@ -3,7 +3,7 @@ package com.martinfilliau.roomsavailability.services;
 import com.martinfilliau.roomsavailability.configuration.ExchangeConfiguration;
 import com.martinfilliau.roomsavailability.representations.BusyPeriods;
 import java.net.URI;
-import java.text.SimpleDateFormat;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +11,7 @@ import microsoft.exchange.webservices.data.AttendeeAvailability;
 import microsoft.exchange.webservices.data.AttendeeInfo;
 import microsoft.exchange.webservices.data.AvailabilityData;
 import microsoft.exchange.webservices.data.ExchangeCredentials;
+import microsoft.exchange.webservices.data.ExchangeService;
 import microsoft.exchange.webservices.data.GetUserAvailabilityResults;
 import microsoft.exchange.webservices.data.TimeWindow;
 import microsoft.exchange.webservices.data.WebCredentials;
@@ -19,14 +20,17 @@ import microsoft.exchange.webservices.data.WebCredentials;
  *
  * @author martinfilliau
  */
-public class ExchangeService {
+public class ExService {
     
-    private final ExchangeConfiguration conf;
+    private final ExchangeService service;
     
-    public ExchangeService(ExchangeConfiguration conf) {
-        this.conf = conf;
+    public ExService(ExchangeConfiguration conf) throws URISyntaxException {
+        service = new ExchangeService();
+        ExchangeCredentials credentials = new WebCredentials(conf.getUsername(), conf.getPassword(), conf.getDomain());
+        service.setCredentials(credentials);
+        service.setUrl(new URI(conf.getUrl()));
     }
-    
+
     /**
      * Find busy periods for a given email address
      * @param email email address
@@ -36,10 +40,6 @@ public class ExchangeService {
      * @throws Exception 
      */
     public BusyPeriods findBusyPeriods(String email, Date start, Date end) throws Exception {
-        microsoft.exchange.webservices.data.ExchangeService service = new microsoft.exchange.webservices.data.ExchangeService();
-        ExchangeCredentials credentials = new WebCredentials(this.conf.getUsername(), this.conf.getPassword(), this.conf.getDomain());
-        service.setCredentials(credentials);
-        service.setUrl(new URI(this.conf.getUrl()));
         List<AttendeeInfo> attendees = new ArrayList<AttendeeInfo>();
         attendees.add(new AttendeeInfo(email));
         GetUserAvailabilityResults results = service.getUserAvailability(attendees, new TimeWindow(start, end), AvailabilityData.FreeBusy);

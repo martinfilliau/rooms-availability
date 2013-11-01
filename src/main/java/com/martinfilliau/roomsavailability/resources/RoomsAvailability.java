@@ -2,8 +2,9 @@ package com.martinfilliau.roomsavailability.resources;
 
 import com.martinfilliau.roomsavailability.configuration.ExchangeConfiguration;
 import com.martinfilliau.roomsavailability.representations.BusyPeriods;
-import com.martinfilliau.roomsavailability.services.ExchangeService;
+import com.martinfilliau.roomsavailability.services.ExService;
 import com.martinfilliau.roomsavailability.views.BusyPeriodsView;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,10 +28,10 @@ import javax.ws.rs.core.MediaType;
 @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
 public class RoomsAvailability {
  
-    private final ExchangeService service;
+    private final ExService service;
     
-    public RoomsAvailability(ExchangeConfiguration ec) {
-        this.service = new ExchangeService(ec);
+    public RoomsAvailability(ExchangeConfiguration ec) throws URISyntaxException {
+        this.service = new ExService(ec);
     }
     
     @GET
